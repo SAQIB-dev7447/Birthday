@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# Glow Bound Tales
 
-TODO: Document your project here
+A cinematic experience app.

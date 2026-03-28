@@ -2,7 +2,6 @@ import { useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import StarField from "@/components/StarField";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import LoadingScreen from "@/components/LoadingScreen";
 import HeroPage from "@/pages/HeroPage";
 import StoryPage from "@/pages/StoryPage";
 import MemoryPage from "@/pages/MemoryPage";
@@ -35,7 +34,6 @@ const pageVariants = {
 };
 
 const Index = () => {
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
 
   const next = useCallback(() => setPage((p) => Math.min(p + 1, TOTAL_PAGES - 1)), []);
@@ -55,26 +53,20 @@ const Index = () => {
     <div className="fixed inset-0 bg-background">
       <StarField />
 
-      {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+      <ProgressIndicator current={page} total={TOTAL_PAGES} />
 
-      {!loading && (
-        <>
-          <ProgressIndicator current={page} total={TOTAL_PAGES} />
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={page}
-              variants={pageVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="fixed inset-0"
-            >
-              {pages[page]}
-            </motion.div>
-          </AnimatePresence>
-        </>
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={page}
+          variants={pageVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          className="fixed inset-0"
+        >
+          {pages[page]}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
